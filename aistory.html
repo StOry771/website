@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiStory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; /* Dark background color */
+            color: #ffffff; /* Light text color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .show-all {
+            color: blue;
+            cursor: pointer;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #000000;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888888;
+            width: 80%;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* Styling for button-85 */
+        .button-85 {
+            padding: 0.6em 2em;
+            border: none;
+            outline: none;
+            color: rgb(255, 255, 255);
+            background: #111;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            margin-bottom: 20px; /* Add margin bottom to separate buttons */
+            display: block; /* Make buttons block elements to stack vertically */
+            margin: 0 auto; /* Center horizontally */
+        }
+
+        .button-85:before {
+            content: "";
+            background: linear-gradient(
+                45deg,
+                #ff0000,
+                #ff7300,
+                #fffb00,
+                #48ff00,
+                #00ffd5,
+                #002bff,
+                #7a00ff,
+                #ff00c8,
+                #ff0000
+            );
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            background-size: 400%;
+            z-index: -1;
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            animation: glowing-button-85 20s linear infinite;
+            transition: opacity 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        @keyframes glowing-button-85 {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 400% 0;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .button-85:after {
+            z-index: -1;
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #222;
+            left: 0;
+            top: 0;
+            border-radius: 10px;
+        }
+        .custom-alert {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .custom-alert-content {
+            background-color: #000000;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .custom-alert-content p {
+            margin: 0;
+        }
+
+        .custom-alert-close {
+            color: #ffffff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .custom-alert-close:hover,
+        .custom-alert-close:focus {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>𝚆𝚎𝚕𝚌𝚘𝚖𝚎 𝚝𝚘 𝙰𝚒𝚂𝚝𝚘𝚛𝚢</h1>
+        <p>
+            𝙰𝚒𝚂𝚝𝚘𝚛𝚢 𝚒𝚜 𝚊𝚗 𝚊𝚙𝚙 𝚝𝚑𝚊𝚝 𝚐𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚜 𝚜𝚝𝚘𝚛𝚒𝚎𝚜 𝚋𝚊𝚜𝚎𝚍 𝚘𝚗 𝚑𝚘𝚛𝚛𝚘𝚛, 𝚜𝚌𝚒-𝚏𝚒, 𝚊𝚗𝚍 𝚏𝚊𝚗𝚝𝚊𝚜𝚢.
+            <span id="moreText" style="display: none;">
+                𝙴𝚖𝚋𝚊𝚛𝚔 𝚘𝚗 𝚊𝚗 𝚎𝚡𝚝𝚛𝚊𝚘𝚛𝚍𝚒𝚗𝚊𝚛𝚢 𝚓𝚘𝚞𝚛𝚗𝚎𝚢 𝚒𝚗𝚝𝚘 𝚝𝚑𝚎 𝚍𝚎𝚙𝚝𝚑𝚜 𝚘𝚏 𝚒𝚖𝚊𝚐𝚒𝚗𝚊𝚝𝚒𝚘𝚗 𝚠𝚒𝚝𝚑 𝙰𝚒𝚂𝚝𝚘𝚛𝚢, 𝚝𝚑𝚎 𝚛𝚎𝚟𝚘𝚕𝚞𝚝𝚒𝚘𝚗𝚊𝚛𝚢 𝚊𝚙𝚙 𝚝𝚑𝚊𝚝 𝚙𝚞𝚜𝚑𝚎𝚜 𝚝𝚑𝚎 𝚋𝚘𝚞𝚗𝚍𝚊𝚛𝚒𝚎𝚜 𝚘𝚏 𝚜𝚝𝚘𝚛𝚢𝚝𝚎𝚕𝚕𝚒𝚗𝚐. 𝚆𝚒𝚝𝚑 𝙰𝚒𝚂𝚝𝚘𝚛𝚢, 𝚢𝚘𝚞'𝚛𝚎 𝚗𝚘𝚝 𝚓𝚞𝚜𝚝 𝚊 𝚙𝚊𝚜𝚜𝚒𝚟𝚎 𝚛𝚎𝚊𝚍𝚎𝚛; 𝚢𝚘𝚞'𝚛𝚎 𝚊 𝚌𝚘-𝚌𝚛𝚎𝚊𝚝𝚘𝚛 𝚘𝚏 𝚝𝚑𝚛𝚒𝚕𝚕𝚒𝚗𝚐 𝚗𝚊𝚛𝚛𝚊𝚝𝚒𝚟𝚎𝚜 𝚝𝚑𝚊𝚝 𝚜𝚙𝚊𝚗 𝚝𝚑𝚎 𝚜𝚙𝚎𝚌𝚝𝚛𝚞𝚖 𝚘𝚏 𝚑𝚘𝚛𝚛𝚘𝚛, 𝚜𝚌𝚒𝚎𝚗𝚌𝚎 𝚏𝚒𝚌𝚝𝚒𝚘𝚗, 𝚊𝚗𝚍 𝚏𝚊𝚗𝚝𝚊𝚜𝚢. 𝙿𝚒𝚌𝚝𝚞𝚛𝚎 𝚢𝚘𝚞𝚛𝚜𝚎𝚕𝚏 𝚠𝚊𝚗𝚍𝚎𝚛𝚒𝚗𝚐 𝚝𝚑𝚛𝚘𝚞𝚐𝚑 𝚎𝚎𝚛𝚒𝚎 𝚌𝚘𝚛𝚛𝚒𝚍𝚘𝚛𝚜 𝚑𝚊𝚞𝚗𝚝𝚎𝚍 𝚋𝚢 𝚞𝚗𝚜𝚎𝚎𝚗 𝚎𝚗𝚝𝚒𝚝𝚒𝚎𝚜, 𝚗𝚊𝚟𝚒𝚐𝚊𝚝𝚒𝚗𝚐 𝚝𝚑𝚛𝚘𝚞𝚐𝚑 𝚝𝚑𝚎 𝚟𝚊𝚜𝚝 𝚎𝚡𝚙𝚊𝚗𝚜𝚎 𝚘𝚏 𝚘𝚞𝚝𝚎𝚛 𝚜𝚙𝚊𝚌𝚎 𝚒𝚗 𝚜𝚎𝚊𝚛𝚌𝚑 𝚘𝚏 𝚗𝚎𝚠 𝚏𝚛𝚘𝚗𝚝𝚒𝚎𝚛𝚜, 𝚘𝚛 𝚎𝚖𝚋𝚊𝚛𝚔𝚒𝚗𝚐 𝚘𝚗 𝚎𝚙𝚒𝚌 𝚚𝚞𝚎𝚜𝚝𝚜 𝚒𝚗 𝚎𝚗𝚌𝚑𝚊𝚗𝚝𝚎𝚍 𝚕𝚊𝚗𝚍𝚜 𝚏𝚒𝚕𝚕𝚎𝚍 𝚠𝚒𝚝𝚑 𝚖𝚊𝚐𝚒𝚌 𝚊𝚗𝚍 𝚠𝚘𝚗𝚍𝚎𝚛. 𝙰𝚒𝚂𝚝𝚘𝚛𝚢 𝚋𝚛𝚒𝚗𝚐𝚜 𝚝𝚑𝚎𝚜𝚎 𝚊𝚍𝚟𝚎𝚗𝚝𝚞𝚛𝚎𝚜 𝚝𝚘 𝚕𝚒𝚏𝚎 𝚠𝚒𝚝𝚑 𝚒𝚝𝚜 𝚌𝚞𝚝𝚝𝚒𝚗𝚐-𝚎𝚍𝚐𝚎 𝙰𝙸 𝚝𝚎𝚌𝚑𝚗𝚘𝚕𝚘𝚐𝚢, 𝚠𝚎𝚊𝚟𝚒𝚗𝚐 𝚝𝚘𝚐𝚎𝚝𝚑𝚎𝚛 𝚒𝚗𝚝𝚛𝚒𝚌𝚊𝚝𝚎 𝚙𝚕𝚘𝚝𝚕𝚒𝚗𝚎𝚜, 𝚌𝚘𝚖𝚙𝚕𝚎𝚡 𝚌𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛𝚜, 𝚊𝚗𝚍 𝚟𝚒𝚟𝚒𝚍 𝚜𝚎𝚝𝚝𝚒𝚗𝚐𝚜 𝚝𝚑𝚊𝚝 𝚠𝚒𝚕𝚕 𝚝𝚛𝚊𝚗𝚜𝚙𝚘𝚛𝚝 𝚢𝚘𝚞 𝚝𝚘 𝚛𝚎𝚊𝚕𝚖𝚜 𝚋𝚎𝚢𝚘𝚗𝚍 𝚢𝚘𝚞𝚛 𝚠𝚒𝚕𝚍𝚎𝚜𝚝 𝚍𝚛𝚎𝚊𝚖𝚜. 𝙱𝚞𝚝 𝙰𝚒𝚂𝚝𝚘𝚛𝚢 𝚒𝚜 𝚖𝚘𝚛𝚎 𝚝𝚑𝚊𝚗 𝚓𝚞𝚜𝚝 𝚊 𝚙𝚕𝚊𝚝𝚏𝚘𝚛𝚖 𝚏𝚘𝚛 𝚎𝚗𝚝𝚎𝚛𝚝𝚊𝚒𝚗𝚖𝚎𝚗𝚝—𝚒𝚝'𝚜 𝚊 𝚝𝚘𝚘𝚕 𝚏𝚘𝚛 𝚞𝚗𝚕𝚎𝚊𝚜𝚑𝚒𝚗𝚐 𝚢𝚘𝚞𝚛 𝚘𝚠𝚗 𝚌𝚛𝚎𝚊𝚝𝚒𝚟𝚒𝚝𝚢. 𝙲𝚞𝚜𝚝𝚘𝚖𝚒𝚣𝚎 𝚢𝚘𝚞𝚛 𝚜𝚝𝚘𝚛𝚢𝚝𝚎𝚕𝚕𝚒𝚗𝚐 𝚎𝚡𝚙𝚎𝚛𝚒𝚎𝚗𝚌𝚎 𝚋𝚢 𝚌𝚑𝚘𝚘𝚜𝚒𝚗𝚐 𝚏𝚛𝚘𝚖 𝚊 𝚟𝚊𝚛𝚒𝚎𝚝𝚢 𝚘𝚏 𝚝𝚑𝚎𝚖𝚎𝚜, 𝚜𝚎𝚝𝚝𝚒𝚗𝚐𝚜, 𝚊𝚗𝚍 𝚙𝚕𝚘𝚝 𝚝𝚠𝚒𝚜𝚝𝚜, 𝚘𝚛 𝚕𝚎𝚝 𝙰𝚒𝚂𝚝𝚘𝚛𝚢 𝚜𝚞𝚛𝚙𝚛𝚒𝚜𝚎 𝚢𝚘𝚞 𝚠𝚒𝚝𝚑 𝚒𝚝𝚜 𝚞𝚗𝚌𝚊𝚗𝚗𝚢 𝚊𝚋𝚒𝚕𝚒𝚝𝚢 𝚝𝚘 𝚊𝚗𝚝𝚒𝚌𝚒𝚙𝚊𝚝𝚎 𝚢𝚘𝚞𝚛 𝚙𝚛𝚎𝚏𝚎𝚛𝚎𝚗𝚌𝚎𝚜. 𝙲𝚘𝚕𝚕𝚊𝚋𝚘𝚛𝚊𝚝𝚎 𝚠𝚒𝚝𝚑 𝚘𝚞𝚛 𝙰𝙸 𝚊𝚕𝚐𝚘𝚛𝚒𝚝𝚑𝚖 𝚝𝚘 𝚌𝚘-𝚊𝚞𝚝𝚑𝚘𝚛 𝚜𝚝𝚘𝚛𝚒𝚎𝚜 𝚝𝚑𝚊𝚝 𝚛𝚎𝚏𝚕𝚎𝚌𝚝 𝚢𝚘𝚞𝚛 𝚞𝚗𝚒𝚚𝚞𝚎 𝚟𝚒𝚜𝚒𝚘𝚗 𝚊𝚗𝚍 𝚟𝚘𝚒𝚌𝚎, 𝚘𝚛 𝚜𝚒𝚖𝚙𝚕𝚢 𝚜𝚒𝚝 𝚋𝚊𝚌𝚔 𝚊𝚗𝚍 𝚕𝚎𝚝 𝚝𝚑𝚎 𝚖𝚊𝚐𝚒𝚌 𝚞𝚗𝚏𝚘𝚕𝚍 𝚋𝚎𝚏𝚘𝚛𝚎 𝚢𝚘𝚞𝚛 𝚎𝚢𝚎𝚜. 𝚆𝚑𝚎𝚝𝚑𝚎𝚛 𝚢𝚘𝚞'𝚛𝚎 𝚊 𝚜𝚎𝚊𝚜𝚘𝚗𝚎𝚍 𝚜𝚝𝚘𝚛𝚢𝚝𝚎𝚕𝚕𝚎𝚛 𝚕𝚘𝚘𝚔𝚒𝚗𝚐 𝚏𝚘𝚛 𝚒𝚗𝚜𝚙𝚒𝚛𝚊𝚝𝚒𝚘𝚗 𝚘𝚛 𝚊 𝚌𝚞𝚛𝚒𝚘𝚞𝚜 𝚊𝚍𝚟𝚎𝚗𝚝𝚞𝚛𝚎𝚛 𝚌𝚛𝚊𝚟𝚒𝚗𝚐 𝚗𝚎𝚠 𝚠𝚘𝚛𝚕𝚍𝚜 𝚝𝚘 𝚎𝚡𝚙𝚕𝚘𝚛𝚎, 𝙰𝚒𝚂𝚝𝚘𝚛𝚢 𝚑𝚊𝚜 𝚜𝚘𝚖𝚎𝚝𝚑𝚒𝚗𝚐 𝚏𝚘𝚛 𝚎𝚟𝚎𝚛𝚢𝚘𝚗𝚎. 𝙹𝚘𝚒𝚗 𝚞𝚜 𝚘𝚗 𝚊 𝚓𝚘𝚞𝚛𝚗𝚎𝚢 𝚘𝚏 𝚍𝚒𝚜𝚌𝚘𝚟𝚎𝚛𝚢, 𝚒𝚗𝚗𝚘𝚟𝚊𝚝𝚒𝚘𝚗, 𝚊𝚗𝚍 𝚎𝚗𝚍𝚕𝚎𝚜𝚜 𝚜𝚝𝚘𝚛𝚢𝚝𝚎𝚕𝚕𝚒𝚗𝚐 𝚙𝚘𝚜𝚜𝚒𝚋𝚒𝚕𝚒𝚝𝚒𝚎𝚜 𝚠𝚒𝚝𝚑 𝙰𝚒𝚂𝚝𝚘𝚛𝚢—𝚝𝚑𝚎 𝚏𝚞𝚝𝚞𝚛𝚎 𝚘𝚏 𝚏𝚒𝚌𝚝𝚒𝚘𝚗 𝚒𝚜 𝚑𝚎𝚛𝚎, 𝚊𝚗𝚍 𝚒𝚝'𝚜 𝚠𝚊𝚒𝚝𝚒𝚗𝚐 𝚏𝚘𝚛 𝚢𝚘𝚞 𝚝𝚘 𝚠𝚛𝚒𝚝𝚎 𝚝𝚑𝚎 𝚗𝚎𝚡𝚝 𝚌𝚑𝚊𝚙𝚝𝚎𝚛.
+
+            </span>
+            <span id="showMore" class="show-all" onclick="showCustomAlert()">Show All</span>
+        </p>
+        <!-- Button for "Download in App Store" -->
+        <div style="margin-bottom: 20px;"> <!-- Add margin bottom between buttons -->
+            <button class="button-85" role="button" onclick="redirectToAppStore()">Download in App Store</button>
+        </div>
+        <!-- Button for "Contact Us" -->
+        <div>
+            <button class="button-85" role="button" onclick="sendEmail()">Contact Us</button>
+        </div>
+    </div>
+
+    <div id="customAlert" class="custom-alert">
+        <div class="custom-alert-content">
+            <span class="custom-alert-close" onclick="hideCustomAlert()">&times;</span>
+            <p id="customAlertText"></p>
+        </div>
+    </div>
+
+    <script>
+        function showCustomAlert() {
+            var moreText = document.getElementById("moreText");
+            var customAlertText = document.getElementById("customAlertText");
+
+            customAlertText.innerHTML = moreText.innerHTML;
+
+            var customAlert = document.getElementById("customAlert");
+            customAlert.style.display = "block";
+        }
+
+        function hideCustomAlert() {
+            var customAlert = document.getElementById("customAlert");
+            customAlert.style.display = "none";
+        }
+
+        function redirectToAppStore() {
+            window.location.href = "https://apps.apple.com/us/app/aistory/id6480533114"; // Replace "https://example.com/app-store-link" with the actual link to your app in the App Store
+        }
+
+        function sendEmail() {
+            window.location.href = "mailto:storyaidev@gmail.com"; // This will open the default mail app with the recipient set to storyaidev@gmail.com
+        }
+    </script>
+</body>
+</html>
